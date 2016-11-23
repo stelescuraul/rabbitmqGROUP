@@ -1,0 +1,23 @@
+{
+  "name": "rabbitmqproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amqp": "^0.2.6",
+    "body-parser": "^1.15.2",
+    "cors": "^2.8.1",
+    "easysoap": "^1.0.6",
+    "express": "^4.14.0",
+    "http": "0.0.0",
+    "method-override": "^2.3.7",
+    "q": "^1.4.1",
+    "socket.io": "^1.6.0"
+  }
+}
