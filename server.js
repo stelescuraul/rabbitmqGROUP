@@ -69,9 +69,9 @@ let clientOptions = {
 };
 
 let clientOptionsRuleBased = {
-  host: 'https://ffecada3.ngrok.io/',
-  path: '/RuleBase',
-  wsdl: '/RuleBase?wsdl',
+  host: 'http://localhost:8080/',
+  path: '/RuleBaseService/RuleBaseService',
+  wsdl: '/RuleBaseService/RuleBaseService?WSDL',
 };
 
 let soapClient = new Soap(easysoap, clientOptions);
@@ -79,25 +79,25 @@ let soapClient = new Soap(easysoap, clientOptions);
 let soapClientRules = new Soap(easysoap, clientOptionsRuleBased);
 
 // List the functions in the rule based client wsdl
-soapClientRules.soapClient.getAllFunctions()
-  .then((functionArray) => {
-    console.log(functionArray);
-  })
-  .catch((err) => {
-    throw new Error(err);
-  });
+// soapClientRules.soapClient.getAllFunctions()
+//   .then((functionArray) => {
+//     console.log(functionArray);
+//   })
+//   .catch((err) => {
+//     throw new Error(err);
+//   });
 
 // Calls the method in rule service
 soapClientRules.callMethod('chooseAppropriateBank', {
   ssn: '120402-2312',
-  creditScore: 234,
+  creditScore: 556,
   loanAmount: 200,
   loanDuration: 1.0
 }).then((response) => {
   console.log(response);
 }).catch((err) => {
   console.log(err);
-})
+});
 
 soapClient.callMethod('creditScore', {
   ssn: '120402-2312'
@@ -107,13 +107,52 @@ soapClient.callMethod('creditScore', {
   console.log(err);
 });
 
-// let Producer = require('./amqp/producer');
-// let producer = new Producer(amqp, {
-//   host: '10.0.0.200'
-// });
+let Producer = require('./amqp/producer');
+let producer = new Producer(amqp, {
+  host: '10.0.0.200'
+});
 
-// producer.startErrorHandler();
-// producer.publish('test', 'hello');
+let channel = "myTestChannel2";
+let exchangeOptions = {
+  type: 'fanout',
+  autoDelete: false
+};
+let exchangeName = "myTestExchange2";
+let queueName = "myTestQueue2";
+let queueOptions = {
+  autoDelete: false,
+  durable: true
+};
+let bindCriteria = '*';
+let publishOptions = {
+  headers: {
+    foo: 'bar',
+    bar: 'foo',
+    number: '123',
+    stuff: [{
+      x: 1
+    }, {
+      x: 2
+    }]
+  }
+};
+
+producer.startErrorHandler();
+producer.publish(channel, "Hello from producer", exchangeOptions, exchangeName, queueName, queueOptions, bindCriteria, publishOptions);
+producer.publish(channel, "Hello from producer", exchangeOptions, exchangeName, queueName, queueOptions, bindCriteria, publishOptions);
+producer.publish(channel, "Hello from producer", exchangeOptions, exchangeName, queueName, queueOptions, bindCriteria, publishOptions);
+producer.publish(channel, "Hello from producer", exchangeOptions, exchangeName, queueName, queueOptions, bindCriteria, publishOptions);
+
+let Listner = require('./amqp/listner');
+let listner = new Listner(amqp, {
+  host: '10.0.0.200'
+});
+
+listner.startErrorHandler();
+listner.listen(queueName, channel, queueOptions, bindCriteria, exchangeName, exchangeOptions, (message, header, deliveryInfo, messageObject) => {
+  console.log(message, header);
+});
+
 
 http.listen(port);
 console.log(`Listening on port: ${port}`);

@@ -1,8 +1,5 @@
 'use strict';
-// const amqp = require('amqp');
-// const connection = amqp.createConnection({
-//   host: '10.0.0.200'
-// });
+
 const q = require('q');
 
 class Producer {
@@ -13,44 +10,23 @@ class Producer {
 
   startErrorHandler() {
     this.connection.on('error', (e) => {
-      console.log("Error from amqp: ", e);
+      console.log(`Error from amqp:  ${e}`);
     });
   }
 
-  publish(channel, message) {
-    let defer = q.defer();
+  publish(channel, message, exchangeOptions, exchangeName, queueName, queueOptions, bindCriteria, publishOptions) {
     this.connection.on('ready', () => {
-      this.connection.publish(channel, message, (err, response) => {
-        err ? defer.reject(err) : defer.resolve(response);
+      let exchange = this.connection.exchange(exchangeName, exchangeOptions);
+
+      let self = this;
+      this.connection.queue(queueName, queueOptions, (q) => {
+        q.bind(exchange, bindCriteria);
+        q.on('queueBindOk', () => {
+          exchange.publish(channel, message, publishOptions);
+        });
       });
-    })
-    return defer.promise;
+    });
   }
 }
-
-// connection.on('error', function (e) {
-//   console.log("Error from amqp: ", e);
-// });
-// // add this for better debuging
-
-// // Wait for connection to become established.
-// connection.on('ready', function () {
-//   // // Use the default 'amq.topic' exchange
-//   // connection.queue('test',{durable:true,autoDelete:false}, function (q) {
-//   // //     // Catch all messages
-//   //     q.bind('#');
-//   // //
-//   // //     // Receive messages
-//   //     // q.subscribe(function (message) {
-//   //     //   // Print messages to stdout
-//   //     //   console.log(message);
-//   //     // });
-//   // });
-
-//   connection.publish('test', "Hello there", function (err, done) {
-//     console.log('Published');
-//     console.log(err, done);
-//   })
-// });
 
 module.exports = Producer;
