@@ -100,41 +100,44 @@ mySocketServer.startListening();
 
 // let Producer = require('./amqp/producer');
 // let producer = new Producer(amqp, {
-//   host: '10.0.0.200'
-// });
-// let Producer = require('./amqp/producer');
-// let producer = new Producer(amqp, {
 //   host: 'datdb.cphbusiness.dk'
 // });
 
-// let channel = "directChannel";
-// let exchangeOptions = {
-//   type: 'direct',
-//   autoDelete: false
-// };
-// let exchangeName = "directExchange";
-// let queueName = "directQueue";
-// let queueOptions = {
-//   autoDelete: false,
-//   durable: true
-// };
-// let bindCriteria = '*';
-// let publishOptions = {
-//   headers: {
-//     foo: 'bar',
-//     bar: 'foo',
-//     number: '123',
-//     stuff: [{
-//       x: 1
-//     }, {
-//       x: 2
-//     }]
-//   }
-// };
+let Producer = require('./amqp/producer');
+let producer = new Producer(amqp, {
+  host: '10.0.0.200'
+});
+let channel = "directChannel";
+let exchangeOptions = {
+  type: 'direct',
+  autoDelete: false
+};
+let exchangeName = "directExchange";
+let queueName = "directQueue";
+let queueOptions = {
+  autoDelete: false,
+  durable: true
+};
+let bindCriteria = '*';
+let publishOptions = {
+  headers: {
+    foo: 'bar',
+    bar: 'foo',
+    number: '123',
+    stuff: [{
+      x: 1
+    }, {
+      x: 2
+    }]
+  }
+};
 
-producer.startErrorHandler();
+// producer.startErrorHandler();
 // producer.setup(".rulesQueue", exchangeOptions, 'groupXexchange', 'rulesQueue', queueOptions);
 // producer.setup(".recipientList", exchangeOptions, 'groupXexchange', 'recipientQueue', queueOptions);
+// producer.setup(".translatorJSON", exchangeOptions, 'groupXexchange', 'translatorJSONQueue', queueOptions);
+// producer.setup(".translatorXML", exchangeOptions, 'groupXexchange', 'translatorXMLQueue', queueOptions);
+// producer.setup(".aggregator", exchangeOptions, 'groupXexchange', 'aggregatorQueue', queueOptions);
 
 // producer.publish("*", {
 //   ssn: '1234567822',
@@ -148,7 +151,7 @@ producer.startErrorHandler();
 //   headers: {
 //     foo: 'bar'
 //   },
-//   replyTo: 'MyTestQueue'
+//   replyTo: 'test2'
 // });
 
 // producer.publish("*", "Hello from producer2", exchangeOptions, exchangeName, "wtfQueue", queueOptions, "hi", publishOptions);
@@ -156,23 +159,44 @@ producer.startErrorHandler();
 // producer.publish(channel, "Hello from producer", exchangeOptions, exchangeName, queueName, queueOptions, bindCriteria, publishOptions);
 
 
-// let CreditScore = require('./core/creditScore');
-// let creditScore = new CreditScore();
+let CreditScore = require('./core/creditScore');
+let creditScore = new CreditScore();
 
-// creditScore.enrich({
-//   ssn: "123456-7822",
-//   loanAmount: 300.22,
-//   loanDuration: new Date()
-// }).then((message) => {
-//   console.log(message);
-// }).catch(err => {
-//   console.log(err);
-// });
+creditScore.enrich({
+  ssn: "123456-7822",
+  loanAmount: 300.22,
+  loanDuration: new Date()
+}).then((message) => {
+  // console.log(message);
+  // console.log('Message sent');
+}).catch(err => {
+  console.log(err);
+});
 
-// let RuleService = require('./core/ruleService');
-// let rules = new RuleService();
+let RuleService = require('./core/ruleService');
+let rules = new RuleService();
 
-// rules.listen();
+rules.listen();
+
+let RecipientList = require('./core/recipientList');
+let recipientList = new RecipientList();
+
+recipientList.listen();
+
+let TranslatorJSON = require('./core/translatorJSON');
+let translatorJSON = new TranslatorJSON();
+
+translatorJSON.listen();
+
+let TranslatorXML = require('./core/translatorXML');
+let translatorXML = new TranslatorXML();
+
+translatorXML.listen();
+
+let Normalizer = require('./core/normalizer');
+let normalizer = new Normalizer();
+
+normalizer.listen();
 
 // let Listner = require('./amqp/listner');
 // let listner = new Listner(amqp, {
@@ -185,7 +209,7 @@ producer.startErrorHandler();
 // });
 
 // listner.startErrorHandler();
-// listner.listen("MyTestQueue", {
+// listner.listen("test2", {
 //   autoDelete: false,
 //   durable: true
 // }, (message, header, deliveryInfo, messageObject) => {
