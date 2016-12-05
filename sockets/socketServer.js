@@ -1,7 +1,15 @@
 'use strict';
 const CreditScore = require('../core/creditScore');
+const Producer = require('../amqp/producer');
+const amqp = require('amqp');
 
 let creditScore = new CreditScore();
+const amqpOptions = {
+  host: '10.0.0.200'
+};
+
+// let producer = new Producer(amqp, amqpOptions);
+// producer.startErrorHandler();
 // let listOfSockets = [];
 class Sockets {
   constructor(io, appToAttach) {
@@ -25,6 +33,10 @@ class Sockets {
       socket.on('test', function (msg) {
         console.log(`my message is ${msg}`);
         // io.emit('test', msg);
+
+        // Check the message here
+        // Send the message to the queue so that the creditScore will listen to it
+
         socket.emit('test', msg);
       });
 

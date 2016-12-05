@@ -59,15 +59,15 @@ mySocketServer.startListening();
 //   wsdl: '/CreditScoreService/CreditScoreService?wsdl',
 // };
 
-let clientOptionsRuleBased = {
-  host: 'http://localhost:8080/',
-  path: '/RuleBaseService/RuleBaseService',
-  wsdl: '/RuleBaseService/RuleBaseService?WSDL',
-};
+// let clientOptionsRuleBased = {
+//   host: 'http://localhost:8080/',
+//   path: '/RuleBaseService/RuleBaseService',
+//   wsdl: '/RuleBaseService/RuleBaseService?WSDL',
+// };
 
 // let soapClient = new Soap(easysoap, clientOptions);
 
-let soapClientRules = new Soap(easysoap, clientOptionsRuleBased);
+// let soapClientRules = new Soap(easysoap, clientOptionsRuleBased);
 
 // List the functions in the rule based client wsdl
 // soapClientRules.soapClient.getAllFunctions()
@@ -98,70 +98,99 @@ let soapClientRules = new Soap(easysoap, clientOptionsRuleBased);
 //   console.log(err);
 // });
 
-let Producer = require('./amqp/producer');
-let producer = new Producer(amqp, {
-  host: '10.0.0.200'
-});
+// let Producer = require('./amqp/producer');
+// let producer = new Producer(amqp, {
+//   host: '10.0.0.200'
+// });
+// let Producer = require('./amqp/producer');
+// let producer = new Producer(amqp, {
+//   host: 'datdb.cphbusiness.dk'
+// });
 
-let channel = "directChannel";
-let exchangeOptions = {
-  type: 'direct',
-  autoDelete: false
-};
-let exchangeName = "directExchange";
-let queueName = "directQueue";
-let queueOptions = {
-  autoDelete: false,
-  durable: true
-};
-let bindCriteria = '*';
-let publishOptions = {
-  headers: {
-    foo: 'bar',
-    bar: 'foo',
-    number: '123',
-    stuff: [{
-      x: 1
-    }, {
-      x: 2
-    }]
-  }
-};
+// let channel = "directChannel";
+// let exchangeOptions = {
+//   type: 'direct',
+//   autoDelete: false
+// };
+// let exchangeName = "directExchange";
+// let queueName = "directQueue";
+// let queueOptions = {
+//   autoDelete: false,
+//   durable: true
+// };
+// let bindCriteria = '*';
+// let publishOptions = {
+//   headers: {
+//     foo: 'bar',
+//     bar: 'foo',
+//     number: '123',
+//     stuff: [{
+//       x: 1
+//     }, {
+//       x: 2
+//     }]
+//   }
+// };
 
 producer.startErrorHandler();
 // producer.setup(".rulesQueue", exchangeOptions, 'groupXexchange', 'rulesQueue', queueOptions);
-// producer.publish(".rulesQueue", "Hello from producer", exchangeOptions, 'groupXexchange', {});
+// producer.setup(".recipientList", exchangeOptions, 'groupXexchange', 'recipientQueue', queueOptions);
+
+// producer.publish("*", {
+//   ssn: '1234567822',
+//   creditScore: 700,
+//   loanAmount: 300.22,
+//   loanDuration: 2
+// }, {
+//   type: 'fanout',
+//   autoDelete: false
+// }, 'cphbusiness.bankJSON', {
+//   headers: {
+//     foo: 'bar'
+//   },
+//   replyTo: 'MyTestQueue'
+// });
+
 // producer.publish("*", "Hello from producer2", exchangeOptions, exchangeName, "wtfQueue", queueOptions, "hi", publishOptions);
 // producer.publish(channel, "Hello from producer", exchangeOptions, exchangeName, queueName, queueOptions, bindCriteria, publishOptions);
 // producer.publish(channel, "Hello from producer", exchangeOptions, exchangeName, queueName, queueOptions, bindCriteria, publishOptions);
 
 
-let CreditScore = require('./core/creditScore');
-let creditScore = new CreditScore();
+// let CreditScore = require('./core/creditScore');
+// let creditScore = new CreditScore();
 
-creditScore.enrich({
-  ssn: "123456-7822",
-  loanAmount: 300.22,
-  loanDuration: new Date()
-}).then((message) => {
-  console.log(message);
-}).catch(err => {
-  console.log(err);
-});
+// creditScore.enrich({
+//   ssn: "123456-7822",
+//   loanAmount: 300.22,
+//   loanDuration: new Date()
+// }).then((message) => {
+//   console.log(message);
+// }).catch(err => {
+//   console.log(err);
+// });
 
-let RuleService = require('./core/ruleService');
-let rules = new RuleService();
+// let RuleService = require('./core/ruleService');
+// let rules = new RuleService();
 
-rules.listen();
+// rules.listen();
 
 // let Listner = require('./amqp/listner');
 // let listner = new Listner(amqp, {
 //   host: '10.0.0.200'
 // });
 
+// let Listner = require('./amqp/listner');
+// let listner = new Listner(amqp, {
+//   host: 'datdb.cphbusiness.dk'
+// });
+
 // listner.startErrorHandler();
-// listner.listen(queueName, queueOptions, ".all", exchangeName, exchangeOptions, (message, header, deliveryInfo, messageObject) => {
-//   console.log(message.data.toString('utf8'), header);
+// listner.listen("MyTestQueue", {
+//   autoDelete: false,
+//   durable: true
+// }, (message, header, deliveryInfo, messageObject) => {
+//   console.log(message, header);
+//   // console.log(message.data.toString('utf8'), header);
 //   console.log('WTF');
 // });
 

@@ -19,12 +19,6 @@ class Producer {
       this.connection.exchange(exchangeName, exchangeOptions, (exchange) => {
         exchange.publish(routingKey, message, messageOptions);
       });
-      // this.connection.queue(queueName, queueOptions, (q) => {
-      //   q.bind(exchange, bindCriteria);
-      //   q.on('queueBindOk', () => {
-      //     exchange.publish(routingKey, message, publishOptions);
-      //   });
-      // });
     });
   }
 
@@ -37,7 +31,6 @@ class Producer {
           q.on('queueBindOk', () => {
             console.log('Queue created');
             defer.resolve();
-            // callback();
           });
         });
       });

@@ -34,14 +34,14 @@ class CreditScore {
             let producer = new Producer(amqp, amqpOptions);
             producer.startErrorHandler();
 
-            let score = parseInt(response.creditScoreResponse.return);
+            let creditScore = parseInt(response.creditScoreResponse.return);
             let ssn = message.ssn.split('-').join('');
-            let loanAmount = message.loanAmount.toFixed(2);
+            let loanAmount = parseFloat(message.loanAmount.toFixed(2));
             let loanDuration = message.loanDuration;
 
             let queueMessage = {
               ssn,
-              score,
+              creditScore,
               loanAmount,
               loanDuration
             };
