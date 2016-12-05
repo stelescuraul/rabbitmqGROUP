@@ -14,18 +14,35 @@ class Producer {
     });
   }
 
-  publish(channel, message, exchangeOptions, exchangeName, queueName, queueOptions, bindCriteria, publishOptions) {
+  publish(routingKey, message, exchangeOptions, exchangeName, messageOptions) {
     this.connection.on('ready', () => {
-      let exchange = this.connection.exchange(exchangeName, exchangeOptions);
+      this.connection.exchange(exchangeName, exchangeOptions, (exchange) => {
+        exchange.publish(routingKey, message, messageOptions);
+      });
+      // this.connection.queue(queueName, queueOptions, (q) => {
+      //   q.bind(exchange, bindCriteria);
+      //   q.on('queueBindOk', () => {
+      //     exchange.publish(routingKey, message, publishOptions);
+      //   });
+      // });
+    });
+  }
 
-      let self = this;
-      this.connection.queue(queueName, queueOptions, (q) => {
-        q.bind(exchange, bindCriteria);
-        q.on('queueBindOk', () => {
-          exchange.publish(channel, message, publishOptions);
+  setup(routingKey, exchangeOptions, exchangeName, queueName, queueOptions) {
+    let defer = q.defer();
+    this.connection.on('ready', () => {
+      this.connection.exchange(exchangeName, exchangeOptions, (exchange) => {
+        this.connection.queue(queueName, queueOptions, (q) => {
+          q.bind(exchange, routingKey);
+          q.on('queueBindOk', () => {
+            console.log('Queue created');
+            defer.resolve();
+            // callback();
+          });
         });
       });
     });
+    return defer.promise;
   }
 }
 

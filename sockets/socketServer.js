@@ -1,9 +1,7 @@
 'use strict';
-// let io = require('socket.io');
-// or
-// var Server = require('socket.io');
-// var io = new Server();
+const CreditScore = require('../core/creditScore');
 
+let creditScore = new CreditScore();
 // let listOfSockets = [];
 class Sockets {
   constructor(io, appToAttach) {
@@ -28,6 +26,11 @@ class Sockets {
         console.log(`my message is ${msg}`);
         // io.emit('test', msg);
         socket.emit('test', msg);
+      });
+
+      socket.on('getQuote', function (msg) {
+        console.log(`Received a new quote`);
+        creditScore.enrich(msg);
       });
 
       socket.on('specific_to_someone', function (id, msg) {
