@@ -15,8 +15,6 @@ let clientOptionsRuleBased = {
   wsdl: '/RuleBaseService/RuleBaseService?WSDL',
 };
 
-let soapClientRules = new Soap(easysoap, clientOptionsRuleBased);
-
 const amqpOptions = {
   host: '10.0.0.200'
 };
@@ -39,7 +37,6 @@ class TranslatorJSON {
   }
 
   listen() {
-    console.log('Here');
     listener.listen('translatorXMLQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
       if (message && _.isObject(message)) {
         let messageToSend = {
@@ -55,6 +52,8 @@ class TranslatorJSON {
         let producer = new Producer(amqp, {
           host: message.recipient.host
         });
+
+        // console.log('In translator xml', xmlMessage);
 
         producer.startErrorHandler();
         producer.publish('*', xmlMessage, exchangeOptions, message.recipient.exchange, {

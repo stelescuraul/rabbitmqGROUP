@@ -8,9 +8,13 @@ const amqpOptions = {
   host: '10.0.0.200'
 };
 
-// let producer = new Producer(amqp, amqpOptions);
-// producer.startErrorHandler();
-// let listOfSockets = [];
+let exchangeOptions = {
+  type: 'direct',
+  autoDelete: false
+};
+
+let Mapper = require('./socketMapper');
+
 class Sockets {
   constructor(io, appToAttach) {
     this.io = io;
@@ -18,39 +22,30 @@ class Sockets {
   }
 
   startListening() {
-    // let self = this;
     let listOfSockets = [];
     this.io.on('connection', function (socket) {
-      console.log('a user connected');
-      listOfSockets.push(socket.id);
-      // socket.emit('',"Hello");
-      socket.emit('test', 'Hello from the server :)');
+      Mapper.setSocket(socket.id, socket);
 
       socket.on('disconnect', function () {
-        console.log('user disconnected');
+        console.log('a user disconnected');
+        Mapper.deleteSocket(socket.id);
       });
 
       socket.on('test', function (msg) {
-        console.log(`my message is ${msg}`);
-        // io.emit('test', msg);
+        let producer = new Producer(amqp, amqpOptions);
 
-        // Check the message here
-        // Send the message to the queue so that the creditScore will listen to it
+        producer.startErrorHandler();
+        let requestId = new Date().getTime()+ '';
 
-        socket.emit('test', msg);
+        producer.publish('.creditScore', msg, exchangeOptions, 'groupXexchange', {
+          headers: {
+            requestId: requestId,
+            socketId: socket.id
+          }
+        });
+
+        Mapper.setMappedValue(requestId, 'socketId', socket.id);
       });
-
-      socket.on('getQuote', function (msg) {
-        console.log(`Received a new quote`);
-        creditScore.enrich(msg);
-      });
-
-      socket.on('specific_to_someone', function (id, msg) {
-        console.log(id, msg);
-        socket.broadcast.to(id).emit('test', msg);
-      });
-
-      // socket.emit('hi', 'everyone');
     });
   }
 }

@@ -6,6 +6,7 @@ const easysoap = require('easysoap');
 const amqp = require('amqp');
 const _ = require('lodash');
 const q = require('q');
+let Mapper = require('../sockets/socketMapper');
 
 let clientOptionsRuleBased = {
   host: 'http://localhost:8080/',
@@ -25,7 +26,7 @@ const queueOptions = {
 };
 
 let exchangeOptions = {
-  type: 'fanout',
+  type: 'direct',
   autoDelete: false
 };
 
@@ -37,24 +38,18 @@ class TranslatorJSON {
   }
 
   listen() {
-    listener.listen('translatorJSONQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
+    listener.listen('aggregatorQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
       if (message && _.isObject(message)) {
-        let messageToSend = {
-          ssn: message.message.ssn,
-          creditScore: message.message.creditScore,
-          loanAmount: message.message.loanAmount,
-          loanDuration: 720
-        };
+        if (message.messages && message.messages[0]) {
+          let min = message.messages[0].interestRate;
+          _.forEach(message.messages, (obj) => {
+            if (obj.interestRate < min) min = obj.interestRate;
+          });
+          let socketId = header.socketId;
+          let socket = Mapper.getSocket(socketId);
 
-        let producer = new Producer(amqp, {
-          host: message.recipient.host
-        });
-
-        producer.startErrorHandler();
-        producer.publish('*', messageToSend, exchangeOptions, message.recipient.exchange, {
-          replyTo: 'groupXjsonResponse',
-          headers: header
-        });
+          socket.emit('test', min);
+        }
       }
     });
   }

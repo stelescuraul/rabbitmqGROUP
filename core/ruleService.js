@@ -8,7 +8,7 @@ const _ = require('lodash');
 const q = require('q');
 
 let clientOptionsRuleBased = {
-  host: 'http://localhost:8080/',
+  host: 'http://localhost:7999/',
   path: '/RuleBaseService/RuleBaseService',
   wsdl: '/RuleBaseService/RuleBaseService?WSDL',
 };
@@ -59,7 +59,9 @@ class RulesService {
             autoDelete: false
           };
 
-          producer.publish('.recipientList', messageToSend, exchangeOptions, 'groupXexchange', {});
+          producer.publish('.recipientList', messageToSend, exchangeOptions, 'groupXexchange', {
+            headers: header
+          });
         }).catch((err) => {
           console.log(err);
         });

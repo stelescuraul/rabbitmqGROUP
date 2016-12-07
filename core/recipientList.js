@@ -78,12 +78,17 @@ class RecipientList {
               message: message.message,
               recipient: recipient
             };
+
+            let headers = {
+              totalNumberOfMsg: count,
+              type: recipient.type
+            };
+            _.forEach(header, (value, key) => {
+              headers[key] = value;
+            });
             // console.log("recipient", messageToSend);
             producer.publish(recipient.translator, messageToSend, exchangeOptions, 'groupXexchange', {
-              headers: {
-                totalNumberOfMsg: count,
-                type: recipient.type
-              }
+              headers: headers
             });
           });
         } else {

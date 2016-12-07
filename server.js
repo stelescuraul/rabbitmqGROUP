@@ -133,7 +133,8 @@ let publishOptions = {
 };
 
 // producer.startErrorHandler();
-// producer.setup(".rulesQueue", exchangeOptions, 'groupXexchange', 'rulesQueue', queueOptions);
+// producer.setup(".creditScore", exchangeOptions, 'groupXexchange', 'creditScoreQueue', queueOptions);
+// producer.setup(".rules", exchangeOptions, 'groupXexchange', 'rulesQueue', queueOptions);
 // producer.setup(".recipientList", exchangeOptions, 'groupXexchange', 'recipientQueue', queueOptions);
 // producer.setup(".translatorJSON", exchangeOptions, 'groupXexchange', 'translatorJSONQueue', queueOptions);
 // producer.setup(".translatorXML", exchangeOptions, 'groupXexchange', 'translatorXMLQueue', queueOptions);
@@ -162,16 +163,7 @@ let publishOptions = {
 let CreditScore = require('./core/creditScore');
 let creditScore = new CreditScore();
 
-creditScore.enrich({
-  ssn: "123456-7822",
-  loanAmount: 300.22,
-  loanDuration: new Date()
-}).then((message) => {
-  // console.log(message);
-  // console.log('Message sent');
-}).catch(err => {
-  console.log(err);
-});
+creditScore.listen();
 
 let RuleService = require('./core/ruleService');
 let rules = new RuleService();
@@ -197,6 +189,21 @@ let Normalizer = require('./core/normalizer');
 let normalizer = new Normalizer();
 
 normalizer.listen();
+
+let Aggregator = require('./core/aggregator');
+let aggregator = new Aggregator();
+aggregator.listen();
+
+// creditScore.enrich({
+//   ssn: "123456-7822",
+//   loanAmount: 300.22,
+//   loanDuration: new Date()
+// }).then((message) => {
+//   // console.log(message);
+//   // console.log('Message sent');
+// }).catch(err => {
+//   console.log(err);
+// });
 
 // let Listner = require('./amqp/listner');
 // let listner = new Listner(amqp, {
