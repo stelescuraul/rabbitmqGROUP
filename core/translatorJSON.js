@@ -1,19 +1,10 @@
 'use strict';
 const Listener = require('../amqp/listner');
 const Producer = require('../amqp/producer');
-const Soap = require('../soap/soapClient');
-const easysoap = require('easysoap');
 const amqp = require('amqp');
 const _ = require('lodash');
 const q = require('q');
-
-let clientOptionsRuleBased = {
-  host: 'http://localhost:8080/',
-  path: '/RuleBaseService/RuleBaseService',
-  wsdl: '/RuleBaseService/RuleBaseService?WSDL',
-};
-
-let soapClientRules = new Soap(easysoap, clientOptionsRuleBased);
+const moment = require('moment');
 
 const amqpOptions = {
   host: '10.0.0.200'
@@ -39,11 +30,13 @@ class TranslatorJSON {
   listen() {
     listener.listen('translatorJSONQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
       if (message && _.isObject(message)) {
+        let oldDate = moment('1970-01-01');
+        let diff = moment(message.message.loanDuration).diff(oldDate,'days');
         let messageToSend = {
           ssn: message.message.ssn,
           creditScore: message.message.creditScore,
           loanAmount: message.message.loanAmount,
-          loanDuration: 720
+          loanDuration: diff
         };
 
         let producer = new Producer(amqp, {

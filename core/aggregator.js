@@ -1,20 +1,10 @@
 'use strict';
 const Listener = require('../amqp/listner');
 const Producer = require('../amqp/producer');
-const Soap = require('../soap/soapClient');
-const easysoap = require('easysoap');
 const amqp = require('amqp');
 const _ = require('lodash');
 const q = require('q');
 let Mapper = require('../sockets/socketMapper');
-
-let clientOptionsRuleBased = {
-  host: 'http://localhost:8080/',
-  path: '/RuleBaseService/RuleBaseService',
-  wsdl: '/RuleBaseService/RuleBaseService?WSDL',
-};
-
-let soapClientRules = new Soap(easysoap, clientOptionsRuleBased);
 
 const amqpOptions = {
   host: '10.0.0.200'
@@ -48,7 +38,7 @@ class TranslatorJSON {
           let socketId = header.socketId;
           let socket = Mapper.getSocket(socketId);
 
-          socket.emit('test', min);
+          socket.emit('test', "The best interest rate for you is: " + min);
         }
       }
     });

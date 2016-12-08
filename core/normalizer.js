@@ -1,21 +1,11 @@
 'use strict';
 const Listener = require('../amqp/listner');
 const Producer = require('../amqp/producer');
-const Soap = require('../soap/soapClient');
-const easysoap = require('easysoap');
 const amqp = require('amqp');
 const _ = require('lodash');
 const q = require('q');
 const parseString = require('xml2js').parseString;
 let Mapper = require('../sockets/socketMapper');
-
-let clientOptionsRuleBased = {
-  host: 'http://localhost:8080/',
-  path: '/RuleBaseService/RuleBaseService',
-  wsdl: '/RuleBaseService/RuleBaseService?WSDL',
-};
-
-let soapClientRules = new Soap(easysoap, clientOptionsRuleBased);
 
 const amqpOptions = {
   host: 'datdb.cphbusiness.dk'
@@ -70,7 +60,7 @@ let checkMapper = function (message, header, mapper) {
       Mapper.setMappedValue(header.requestId, 'nrOfMessages', header.totalNumberOfMsg);
       Mapper.setMappedValue(header.requestId, 'messages', messagesInMapper);
       if (header.totalNumberOfMsg === 1) {
-        sendMessage(Mapper.getMappedObject(header.requestId), message.ssn);
+        sendMessage(Mapper.getMappedObject(header.requestId), message.ssn, header);
         Mapper.deleteMappedValue(header.requestId, header);
       }
     } else {
@@ -78,29 +68,6 @@ let checkMapper = function (message, header, mapper) {
     }
   }
 };
-
-// let checkMapper = function (message, header, mapper) {
-//   if (mapper[message.ssn]) {
-//     mapper[message.ssn].messages.push({
-//       interestRate: message.interestRate
-//     });
-//     if (mapper[message.ssn].messages.length === mapper[message.ssn].nrOfMessages) {
-//       sendMessage(mapper[message.ssn], message.ssn);
-//       delete mapper[message.ssn];
-//     }
-//   } else {
-//     mapper[message.ssn] = {};
-//     mapper[message.ssn].nrOfMessages = header.totalNumberOfMsg;
-//     mapper[message.ssn].messages = [];
-//     mapper[message.ssn].messages.push({
-//       interestRate: message.interestRate
-//     });
-//     if (mapper[message.ssn].messages.length === mapper[message.ssn].nrOfMessages) {
-//       sendMessage(mapper[message.ssn], message.ssn);
-//       delete mapper[message.ssn];
-//     }
-//   }
-// };
 
 class TranslatorJSON {
   constructor() {
@@ -110,7 +77,6 @@ class TranslatorJSON {
   listen() {
     let mapper = {};
     listener.listen('groupXjsonResponse', queueOptions, (message, header, deliveryInfo, messageObject) => {
-      // console.log("FROM NORMALIZER",header);
       if (header.type === 'json') {
         checkMapper(message, header, mapper);
       } else if (header.type === "xml") {

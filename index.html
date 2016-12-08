@@ -1,0 +1,55 @@
+<html>
+
+<head>
+  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+  <script>
+  var socket = io.connect('http://localhost:1337');
+
+  $(document).ready(function() {
+    $('#sendMyMessage').click(function(){
+      let message = {
+        ssn: $('#ssn').val(),
+        loanAmount: parseInt($('#amount').val()),
+        loanDuration: $('#loanDuration').val()
+      }
+      socket.emit('test',message);
+    });
+  });
+
+  let message = {
+       ssn: '123456-7822',
+       loanAmount: 300.22,
+       loanDuration: 30
+  };
+
+  socket.on('connect', function () {
+    console.log('connected');
+  });
+
+  socket.on('test',function(msg){
+    $('#results').append("<p>"+msg+"</p>");
+    console.log(msg);
+  });
+
+ var sendMessage = function(){
+   socket.emit('test',message);
+ }
+</script>
+</head>
+
+<body>
+  <div id="content">
+    <p>Enter your ssn with the format "xxxxxx-xxxx" <input type="text" id="ssn"></p>
+    <p>Enter the amount <input type="number" id="amount" min="1"></p>
+    <p>Enter the loan duration (in days) <input type="number" id="loanDuration" min="1"></p>
+    <p><input type="submit" id="sendMyMessage">
+  </div>
+
+  <div id="results">
+
+  </div>
+</body>
+
+</html>
