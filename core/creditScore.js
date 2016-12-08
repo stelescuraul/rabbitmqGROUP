@@ -6,6 +6,7 @@ const easysoap = require('easysoap');
 const amqp = require('amqp');
 const _ = require('lodash');
 const q = require('q');
+const moment = require('moment');
 
 let clientOptions = {
   host: 'http://139.59.154.97:8080/',
@@ -35,7 +36,10 @@ class CreditScore {
   listen(message) {
     listener.listen('creditScoreQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
       if (message && _.isObject(message)) {
-        if (message.loanDuration) message.loanDuration = new Date(message.loanDuration);
+        if (message.loanDuration) {
+          let newDate = moment('1970-01-01').add(message.loanDuration, 'days').toDate();
+          message.loanDuration = newDate;
+        }
         if (message.ssn && _.isString(message.ssn) && message.loanAmount && _.isNumber(message.loanAmount) && message.loanDuration && _.isDate(message.loanDuration)) {
           let exp = new RegExp('[0-9]{6}-[0-9]{4}');
           if (exp.test(message.ssn)) {

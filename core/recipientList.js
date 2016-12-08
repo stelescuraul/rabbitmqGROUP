@@ -1,19 +1,10 @@
 'use strict';
 const Listener = require('../amqp/listner');
 const Producer = require('../amqp/producer');
-const Soap = require('../soap/soapClient');
-const easysoap = require('easysoap');
 const amqp = require('amqp');
 const _ = require('lodash');
 const q = require('q');
-
-let clientOptionsRuleBased = {
-  host: 'http://localhost:8080/',
-  path: '/RuleBaseService/RuleBaseService',
-  wsdl: '/RuleBaseService/RuleBaseService?WSDL',
-};
-
-let soapClientRules = new Soap(easysoap, clientOptionsRuleBased);
+let SocketMapper = require('../sockets/socketMapper');
 
 const amqpOptions = {
   host: '10.0.0.200'
@@ -59,7 +50,6 @@ class RecipientList {
 
   listen() {
     listener.listen('recipientQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
-      // console.log(message);
       if (message && message.message && message.banks && _.isObject(message.message) && _.isArray(message.banks)) {
         if (message.banks.length !== 0) {
           let producer = new Producer(amqp, amqpOptions);
@@ -86,13 +76,15 @@ class RecipientList {
             _.forEach(header, (value, key) => {
               headers[key] = value;
             });
-            // console.log("recipient", messageToSend);
             producer.publish(recipient.translator, messageToSend, exchangeOptions, 'groupXexchange', {
               headers: headers
             });
           });
         } else {
-          console.log('Should not be send to anyone ');
+          let socketId = header.socketId;
+          let socket = SocketMapper.getSocket(socketId);
+
+          socket.emit('test', "Credit score too low to send to any banks: " + message.message.creditScore);
         }
       }
     });

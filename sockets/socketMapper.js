@@ -16,7 +16,6 @@ class Mapper {
       mapper[criteria] = {};
       mapper[criteria][key] = value;
     }
-    // mapper[key] = obj;
   }
 
   static deleteMappedValue(criteria) {

@@ -39,9 +39,7 @@ class RulesService {
       if (message && _.isObject(message) && message.ssn && _.isString(message.ssn) && message.loanAmount &&
         _.isNumber(message.loanAmount) && message.loanDuration &&
         message.creditScore && _.isNumber(message.creditScore)) {
-        // message.loanDuration = '1972-01-01 01:00:00.0 CET';
-        // message.loanDuration = '1972-01-01 01:00:00.0 CET';
-        message.creditScore = 700;
+        message.creditScore = message.creditScore;
         let messageToSend = {
           message: message,
           banks: []
