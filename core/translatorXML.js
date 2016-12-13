@@ -9,7 +9,7 @@ const moment = require('moment');
 const builder = new xml2js.Builder();
 
 const amqpOptions = {
-  host: '10.0.0.200'
+  host: 'datdb.cphbusiness.dk'
 };
 
 const queueOptions = {
@@ -30,7 +30,7 @@ class TranslatorJSON {
   }
 
   listen() {
-    listener.listen('translatorXMLQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
+    listener.listen('groupXTranslatorXMLQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
       if (message && _.isObject(message)) {
         let oldDate = moment(message.message.loanDuration);
         // date type for xml ... kill me
@@ -51,7 +51,7 @@ class TranslatorJSON {
 
         producer.startErrorHandler();
         producer.publish('*', xmlMessage, exchangeOptions, message.recipient.exchange, {
-          replyTo: 'groupXjsonResponse',
+          replyTo: 'groupXResponse',
           headers: header
         });
       }

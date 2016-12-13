@@ -7,7 +7,7 @@ const q = require('q');
 const moment = require('moment');
 
 const amqpOptions = {
-  host: '10.0.0.200'
+  host: 'datdb.cphbusiness.dk'
 };
 
 const queueOptions = {
@@ -28,7 +28,7 @@ class TranslatorJSON {
   }
 
   listen() {
-    listener.listen('translatorJSONQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
+    listener.listen('groupXTranslatorJSONQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
       if (message && _.isObject(message)) {
         let oldDate = moment('1970-01-01');
         let diff = moment(message.message.loanDuration).diff(oldDate,'days');
@@ -45,7 +45,7 @@ class TranslatorJSON {
 
         producer.startErrorHandler();
         producer.publish('*', messageToSend, exchangeOptions, message.recipient.exchange, {
-          replyTo: 'groupXjsonResponse',
+          replyTo: 'groupXResponse',
           headers: header
         });
       }

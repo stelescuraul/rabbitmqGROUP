@@ -26,11 +26,11 @@ let listener = new Listener(amqp, amqpOptions);
 let sendMessage = function (message, ssn, header) {
   message.ssn = ssn;
   let producer = new Producer(amqp, {
-    host: '10.0.0.200'
+    host: 'datdb.cphbusiness.dk'
   });
   producer.startErrorHandler();
 
-  producer.publish('.aggregator', message, {
+  producer.publish('.groupXAggregator', message, {
     type: 'direct',
     autoDelete: false
   }, 'groupXexchange', {
@@ -76,7 +76,7 @@ class TranslatorJSON {
 
   listen() {
     let mapper = {};
-    listener.listen('groupXjsonResponse', queueOptions, (message, header, deliveryInfo, messageObject) => {
+    listener.listen('groupXResponse', queueOptions, (message, header, deliveryInfo, messageObject) => {
       if (header.type === 'json') {
         checkMapper(message, header, mapper);
       } else if (header.type === "xml") {

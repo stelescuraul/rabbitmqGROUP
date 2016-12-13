@@ -7,7 +7,7 @@ const q = require('q');
 let SocketMapper = require('../sockets/socketMapper');
 
 const amqpOptions = {
-  host: '10.0.0.200'
+  host: 'datdb.cphbusiness.dk'
 };
 
 const queueOptions = {
@@ -33,13 +33,13 @@ const bankslist = {
     host: 'datdb.cphbusiness.dk',
     type: 'xml',
     exchange: 'cphbusiness.bankXML',
-    translator: '.translatorXML'
+    translator: '.groupXTranslatorXML'
   },
   'cphbusiness.bankJSON': {
     host: 'datdb.cphbusiness.dk',
     type: 'json',
     exchange: 'cphbusiness.bankJSON',
-    translator: '.translatorJSON'
+    translator: '.groupXTranslatorJSON'
   }
 };
 
@@ -49,7 +49,7 @@ class RecipientList {
   }
 
   listen() {
-    listener.listen('recipientQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
+    listener.listen('groupXRecipientQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
       if (message && message.message && message.banks && _.isObject(message.message) && _.isArray(message.banks)) {
         if (message.banks.length !== 0) {
           let producer = new Producer(amqp, amqpOptions);
