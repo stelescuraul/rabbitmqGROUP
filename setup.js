@@ -17,18 +17,6 @@ let queueOptions = {
   durable: true
 };
 let bindCriteria = '*';
-let publishOptions = {
-  headers: {
-    foo: 'bar',
-    bar: 'foo',
-    number: '123',
-    stuff: [{
-      x: 1
-    }, {
-      x: 2
-    }]
-  }
-};
 
 producer.startErrorHandler();
 let promises = [];
