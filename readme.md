@@ -1,4 +1,20 @@
-This is the project for Group X
+#  System Integration | RabbitMQ | Group X
+
+### Requirements
+
+[x] Make a design class diagram and a sequence diagram that document your solution (including comments)
+
+[x] Describe potential bottlenecks in your solution and possible enhancements to improve performance
+
+[x] Describe how testable your solution is (see more on testability pp 440-443)
+
+[x] Provide a description of the loan broker web service you create, i.e. not the WSDL file, but a textual contract with restrictions to the input parameters, exceptions, etc.
+
+[x] Discuss you implementation from the SOA perspective, e.g. how do you solution follow the layers in the SOA reference model, coupling, cohesion, granularity.
+
+[x] You must use RabbitMQ as your message broker, but the implementation language(s) is/are free of choice (Java, C# or similar).
+
+### How to run
 
 In order to run the whole suite you have to:
 1. Have nodejs and npm installed in your system and setup environment variables
@@ -17,9 +33,11 @@ OBS: If your glassfish server is running on a different port than 8080, then you
 
 Now that your server is running, you should see in your console `Listening on port: 1337`. You can go to : localhost:1337 in your browser run the client
 
-Screen dumps are in folder 'screenshots'
+### Screen dumps
 
-Diagrams are in folder 'diagrams'
+### Diagrams
+
+### Potential bottlenecks
 
 Possible bottlenecks in our application might be because of the connectivity between our components and queue server / java servers if they will be deployed somewhere else than locally.
 
