@@ -2,17 +2,17 @@
 
 ### Requirements
 
-[x] Make a design class diagram and a sequence diagram that document your solution (including comments)
+- [x] Make a design class diagram and a sequence diagram that document your solution (including comments)
 
-[x] Describe potential bottlenecks in your solution and possible enhancements to improve performance
+- [x] Describe potential bottlenecks in your solution and possible enhancements to improve performance
 
-[x] Describe how testable your solution is (see more on testability pp 440-443)
+- [x] Describe how testable your solution is (see more on testability pp 440-443)
 
-[x] Provide a description of the loan broker web service you create, i.e. not the WSDL file, but a textual contract with restrictions to the input parameters, exceptions, etc.
+- [x] Provide a description of the loan broker web service you create, i.e. not the WSDL file, but a textual contract with restrictions to the input parameters, exceptions, etc.
 
-[x] Discuss you implementation from the SOA perspective, e.g. how do you solution follow the layers in the SOA reference model, coupling, cohesion, granularity.
+- [x] Discuss you implementation from the SOA perspective, e.g. how do you solution follow the layers in the SOA reference model, coupling, cohesion, granularity.
 
-[x] You must use RabbitMQ as your message broker, but the implementation language(s) is/are free of choice (Java, C# or similar).
+- [x] You must use RabbitMQ as your message broker, but the implementation language(s) is/are free of choice (Java, C# or similar).
 
 ### How to run
 
