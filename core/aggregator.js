@@ -7,7 +7,7 @@ const q = require('q');
 let Mapper = require('../sockets/socketMapper');
 
 const amqpOptions = {
-  host: '10.0.0.200'
+  host: 'datdb.cphbusiness.dk'
 };
 
 const queueOptions = {
@@ -28,7 +28,7 @@ class TranslatorJSON {
   }
 
   listen() {
-    listener.listen('aggregatorQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
+    listener.listen('groupXAggregatorQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
       if (message && _.isObject(message)) {
         if (message.messages && message.messages[0]) {
           let min = message.messages[0].interestRate;

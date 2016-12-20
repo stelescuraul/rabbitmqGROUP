@@ -16,7 +16,7 @@ let clientOptions = {
 let soapClient = new Soap(easysoap, clientOptions);
 
 const amqpOptions = {
-  host: '10.0.0.200'
+  host: 'datdb.cphbusiness.dk'
 };
 
 const queueOptions = {
@@ -24,9 +24,7 @@ const queueOptions = {
   durable: true
 };
 
-let listener = new Listener(amqp, {
-  host: '10.0.0.200'
-});
+let listener = new Listener(amqp, amqpOptions);
 
 class CreditScore {
   constructor() {
@@ -34,7 +32,7 @@ class CreditScore {
   }
 
   listen(message) {
-    listener.listen('creditScoreQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
+    listener.listen('groupXCreditScoreQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
       if (message && _.isObject(message)) {
         if (message.loanDuration) {
           let newDate = moment('1970-01-01').add(message.loanDuration, 'days').toDate();
@@ -51,6 +49,7 @@ class CreditScore {
               producer.startErrorHandler();
 
               let creditScore = parseInt(response.creditScoreResponse.return);
+              // let creditScore = 560;
               let ssn = message.ssn.split('-').join('');
               let loanAmount = parseFloat(message.loanAmount.toFixed(2));
               let loanDuration = message.loanDuration;
@@ -68,7 +67,7 @@ class CreditScore {
               let messageOptions = {
                 headers: header
               };
-              producer.publish('.rules', queueMessage, exchangeOptions, 'groupXexchange', messageOptions);
+              producer.publish('.groupXRules', queueMessage, exchangeOptions, 'groupXexchange', messageOptions);
             }).catch((err) => {
               console.log('Error');
             });

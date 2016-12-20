@@ -5,7 +5,7 @@ const amqp = require('amqp');
 
 let creditScore = new CreditScore();
 const amqpOptions = {
-  host: '10.0.0.200'
+  host: 'datdb.cphbusiness.dk'
 };
 
 let exchangeOptions = {
@@ -27,7 +27,6 @@ class Sockets {
       Mapper.setSocket(socket.id, socket);
 
       socket.on('disconnect', function () {
-        console.log('a user disconnected');
         Mapper.deleteSocket(socket.id);
       });
 
@@ -36,8 +35,7 @@ class Sockets {
 
         producer.startErrorHandler();
         let requestId = new Date().getTime()+ '';
-
-        producer.publish('.creditScore', msg, exchangeOptions, 'groupXexchange', {
+        producer.publish('.groupXCreditScore', msg, exchangeOptions, 'groupXexchange', {
           headers: {
             requestId: requestId,
             socketId: socket.id

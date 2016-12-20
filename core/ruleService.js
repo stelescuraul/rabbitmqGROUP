@@ -16,7 +16,7 @@ let clientOptionsRuleBased = {
 let soapClientRules = new Soap(easysoap, clientOptionsRuleBased);
 
 const amqpOptions = {
-  host: '10.0.0.200'
+  host: 'datdb.cphbusiness.dk'
 };
 
 const queueOptions = {
@@ -24,9 +24,7 @@ const queueOptions = {
   durable: true
 };
 
-let listener = new Listener(amqp, {
-  host: '10.0.0.200'
-});
+let listener = new Listener(amqp, amqpOptions);
 
 
 class RulesService {
@@ -35,7 +33,7 @@ class RulesService {
   }
 
   listen() {
-    listener.listen('rulesQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
+    listener.listen('groupXRulesQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
       if (message && _.isObject(message) && message.ssn && _.isString(message.ssn) && message.loanAmount &&
         _.isNumber(message.loanAmount) && message.loanDuration &&
         message.creditScore && _.isNumber(message.creditScore)) {
@@ -49,15 +47,15 @@ class RulesService {
           producer.startErrorHandler();
 
           _.forEach(response.chooseAppropriateBankResponse, (bank) => {
-            messageToSend.banks.push(bank.return);
+            if (bank.hasOwnProperty('return')) messageToSend.banks.push(bank.return);
+            else messageToSend.banks.push(bank);
           });
 
           let exchangeOptions = {
             type: 'direct',
             autoDelete: false
           };
-
-          producer.publish('.recipientList', messageToSend, exchangeOptions, 'groupXexchange', {
+          producer.publish('.groupXRecipientList', messageToSend, exchangeOptions, 'groupXexchange', {
             headers: header
           });
         }).catch((err) => {
