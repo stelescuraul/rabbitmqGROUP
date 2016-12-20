@@ -7,6 +7,7 @@ const q = require('q');
 let Mapper = require('../sockets/socketMapper');
 
 const amqpOptions = {
+  // host: '10.0.0.200'
   host: 'datdb.cphbusiness.dk'
 };
 

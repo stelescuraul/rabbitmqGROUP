@@ -6,6 +6,7 @@ const amqp = require('amqp');
 let creditScore = new CreditScore();
 const amqpOptions = {
   host: 'datdb.cphbusiness.dk'
+  // host: '10.0.0.200'
 };
 
 let exchangeOptions = {

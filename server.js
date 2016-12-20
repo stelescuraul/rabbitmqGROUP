@@ -15,6 +15,7 @@ const RuleService = require('./core/ruleService');
 const RecipientList = require('./core/recipientList');
 const TranslatorJSON = require('./core/translatorJSON');
 const TranslatorXML = require('./core/translatorXML');
+const ServiceXML= require('./core/serviceXML');
 const Normalizer = require('./core/normalizer');
 const Aggregator = require('./core/aggregator');
 
@@ -22,6 +23,7 @@ let creditScore = new CreditScore();
 let rules = new RuleService();
 let recipientList = new RecipientList();
 let translatorJSON = new TranslatorJSON();
+let serviceXML = new ServiceXML();
 let translatorXML = new TranslatorXML();
 let normalizer = new Normalizer();
 let aggregator = new Aggregator();
@@ -72,6 +74,7 @@ rules.listen();
 recipientList.listen();
 translatorJSON.listen();
 translatorXML.listen();
+serviceXML.listen();
 normalizer.listen();
 aggregator.listen();
 

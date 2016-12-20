@@ -23,12 +23,12 @@ let exchangeOptions = {
 let listener = new Listener(amqp, amqpOptions);
 
 const bankslist = {
-  // 'cphbusiness.bankService': {
-  //   host: '',
-  //   type: 'xml',
-  //   exchange: 'cphbusiness.bankService',
-  //   translator: '.translatorXML'
-  // },
+  'cphbusiness.bankService': {
+    host: 'http://localhost:7999/',
+    type: 'json',
+    exchange: 'cphbusiness.bankService',
+    translator: '.groupXServiceXML'
+  },
   'cphbusiness.bankXML': {
     host: 'datdb.cphbusiness.dk',
     type: 'xml',
