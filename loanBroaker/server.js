@@ -15,7 +15,7 @@ const RuleService = require('./core/ruleService');
 const RecipientList = require('./core/recipientList');
 const TranslatorJSON = require('./core/translatorJSON');
 const TranslatorXML = require('./core/translatorXML');
-const ServiceXML= require('./core/serviceXML');
+const ServiceXML = require('./core/serviceXML');
 const Normalizer = require('./core/normalizer');
 const Aggregator = require('./core/aggregator');
 
@@ -63,6 +63,14 @@ if (app.get('env') === 'development' || app.get('env') === 'test') {
     });
   });
 }
+
+app.get('/', function (req, res) {
+
+  res.sendFile('./index.html', {
+    root: __dirname
+  });
+});
+
 
 const http = require('http').Server(app);
 
