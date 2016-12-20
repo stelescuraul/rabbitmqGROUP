@@ -49,6 +49,7 @@ class CreditScore {
               producer.startErrorHandler();
 
               let creditScore = parseInt(response.creditScoreResponse.return);
+              // let creditScore = 560;
               let ssn = message.ssn.split('-').join('');
               let loanAmount = parseFloat(message.loanAmount.toFixed(2));
               let loanDuration = message.loanDuration;

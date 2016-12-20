@@ -35,8 +35,6 @@ class TranslatorJSON {
 
   listen() {
     listener.listen('groupXServiceXMLQueue', queueOptions, (message, header, deliveryInfo, messageObject) => {
-      console.log('my message', message);
-      console.log('my header', header);
       if (message && _.isObject(message)) {
         clientOptions.host = message.recipient.host;
         let soapClient = new Soap(easysoap, clientOptions);
@@ -53,42 +51,18 @@ class TranslatorJSON {
         let properties = {
           replyTo: 'groupXResponse',
           headers: header
-          // {
-          //   type: "serviceJSON",
-          //   totalNumberOfMsg: header.totalNumberOfMsg
-          // }
         };
 
-        soapClient.callMethod({
-          method: 'generateQuote',
-          params: {
+        soapClient.callMethod(
+          'generateQuote', {
             request: JSON.stringify(request),
             props: JSON.stringify(properties)
           }
-        }).then((callResponse) => {
-          console.log('Response from shit', callResponse);
+        ).then((callResponse) => {
+          console.log('generateQuote service response', callResponse);
         }).catch(err => {
           console.log(err);
         });
-
-        // soapClient.call({
-        //     method: 'generateQuote',
-        //     params: {
-        //       request: `{ssn: ${message.message.ssn}, loanAmount: ${message.message.loanAmount}, duration: ${message.message.loanDuration}, creditScore: ${message.message.creditScore}}`,
-        //       props: "{replyTo: 'groupXResponse'}"
-        //     }
-        //   })
-        //   .then((callResponse) => {
-        //     // console.log(callResponse.response); // response data as json
-        //     // console.log(callResponse.data); // response body
-        //     if (callResponse.data.generateQuoteResponse.return === true) {
-        //       //do smthing
-        //     }
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //     // throw new Error(err);
-        //   });
       }
     });
   }

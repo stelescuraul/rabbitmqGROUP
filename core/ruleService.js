@@ -47,14 +47,14 @@ class RulesService {
           producer.startErrorHandler();
 
           _.forEach(response.chooseAppropriateBankResponse, (bank) => {
-            messageToSend.banks.push(bank.return);
+            if (bank.hasOwnProperty('return')) messageToSend.banks.push(bank.return);
+            else messageToSend.banks.push(bank);
           });
 
           let exchangeOptions = {
             type: 'direct',
             autoDelete: false
           };
-
           producer.publish('.groupXRecipientList', messageToSend, exchangeOptions, 'groupXexchange', {
             headers: header
           });

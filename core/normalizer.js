@@ -9,7 +9,6 @@ let Mapper = require('../sockets/socketMapper');
 
 const amqpOptions = {
   host: 'datdb.cphbusiness.dk'
-  // host: '10.0.0.200'
 };
 
 const queueOptions = {
@@ -28,7 +27,6 @@ let sendMessage = function (message, ssn, header) {
   message.ssn = ssn;
   let producer = new Producer(amqp, {
     host: 'datdb.cphbusiness.dk'
-    // host: '10.0.0.200'
   });
   producer.startErrorHandler();
 
@@ -41,8 +39,6 @@ let sendMessage = function (message, ssn, header) {
 };
 
 let checkMapper = function (message, header, mapper) {
-  // check if array or string and convert the value
-  // fucking shit gets returned as array
   let mappedRequest = Mapper.getMappedObject(header.requestId);
   if (mappedRequest && mappedRequest.nrOfMessages) {
     let messagesInMapper = mappedRequest.messages;
@@ -82,8 +78,6 @@ class TranslatorJSON {
     let mapper = {};
     //groupXResponse
     listener.listen('groupXResponse', queueOptions, (message, header, deliveryInfo, messageObject) => {
-      console.log(message);
-      // console.log(header);
       if (header.type === 'json') {
         checkMapper(message, header, mapper);
       } else if (header.type === "xml") {

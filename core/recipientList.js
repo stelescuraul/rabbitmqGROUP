@@ -25,7 +25,7 @@ let listener = new Listener(amqp, amqpOptions);
 const bankslist = {
   'cphbusiness.bankService': {
     host: 'http://localhost:7999/',
-    type: 'json',
+    type: 'serviceJSON',
     exchange: 'cphbusiness.bankService',
     translator: '.groupXServiceXML'
   },
@@ -76,6 +76,7 @@ class RecipientList {
             _.forEach(header, (value, key) => {
               headers[key] = value;
             });
+
             producer.publish(recipient.translator, messageToSend, exchangeOptions, 'groupXexchange', {
               headers: headers
             });
