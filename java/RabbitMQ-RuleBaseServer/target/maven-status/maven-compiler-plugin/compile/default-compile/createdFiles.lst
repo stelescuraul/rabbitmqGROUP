@@ -1,0 +1,6 @@
+dk\rulebase\service\GenericResource.class
+dk\rulebase\service\NewJerseyClient.class
+dk\rulebase\service\RuleBaseService.class
+dk\rulebase\dto\LoanRequestDTO.class
+dk\rulebase\service\ApplicationConfig.class
+dk\rulebase\facade\Controller.class

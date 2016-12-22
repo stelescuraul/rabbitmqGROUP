@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://service.rulebase.dk/" xmlns:tns="http://service.rulebase.dk/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="chooseAppropriateBank" type="tns:chooseAppropriateBank"/>
+
+  <xs:element name="chooseAppropriateBankResponse" type="tns:chooseAppropriateBankResponse"/>
+
+  <xs:complexType name="chooseAppropriateBank">
+    <xs:sequence>
+      <xs:element name="ssn" type="xs:string" minOccurs="0"/>
+      <xs:element name="creditScore" type="xs:int"/>
+      <xs:element name="loanAmount" type="xs:double"/>
+      <xs:element name="loanDuration" type="xs:dateTime" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="chooseAppropriateBankResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
