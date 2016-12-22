@@ -35,9 +35,41 @@ Now that your server is running, you should see in your console `Listening on po
 
 ### Screen dumps
 
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/1.png)
+
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/2.png)
+
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/3.png)
+
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/4.png)
+
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/5.png)
+
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/6.png)
+
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/7.png)
+
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/8.png)
+
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/9.png)
+
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/10.png)
+
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/11.png)
+
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/12.png)
+
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/13.png)
+
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/14.png)
+
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/15.png)
+
 ### Diagrams
 
-![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/1.png)
+#### Sequence diagram
+
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/seq_dia.png)
 
 ### Potential bottlenecks
 
