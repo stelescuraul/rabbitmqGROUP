@@ -24,6 +24,7 @@ let promises = [];
 promises.push(producer.setup(".groupXCreditScore", exchangeOptions, exchangeName, 'groupXCreditScoreQueue', queueOptions));
 promises.push(producer.setup(".groupXRecipientList", exchangeOptions, exchangeName, 'groupXRecipientQueue', queueOptions));
 promises.push(producer.setup(".groupXRules", exchangeOptions, exchangeName, 'groupXRulesQueue', queueOptions));
+promises.push(producer.setup(".groupXTranslatorJSONBank", exchangeOptions, exchangeName, 'groupXTranslatorJSONBankQueue', queueOptions));
 promises.push(producer.setup(".groupXTranslatorJSON", exchangeOptions, exchangeName, 'groupXTranslatorJSONQueue', queueOptions));
 promises.push(producer.setup(".groupXServiceXML", exchangeOptions, exchangeName, 'groupXServiceXMLQueue', queueOptions));
 promises.push(producer.setup(".groupXTranslatorXML", exchangeOptions, exchangeName, 'groupXTranslatorXMLQueue', queueOptions));

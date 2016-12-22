@@ -39,6 +39,7 @@ let sendMessage = function (message, ssn, header) {
 };
 
 let checkMapper = function (message, header, mapper) {
+  console.log('Check my mapper', message, header);
   let mappedRequest = Mapper.getMappedObject(header.requestId);
   if (mappedRequest && mappedRequest.nrOfMessages) {
     let messagesInMapper = mappedRequest.messages;
@@ -91,7 +92,7 @@ class TranslatorJSON {
             checkMapper(customMessage, header, mapper);
           }
         });
-      } else if (header.type === "serviceJSON") {
+      } else if (header.type === "xmlJSONString") {
         let msg = JSON.parse(message.data.toString('utf8'));
         let customMessage = {
           interestRate: parseFloat(parseFloat(msg.interestRate).toFixed(1)),
