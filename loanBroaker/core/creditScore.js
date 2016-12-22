@@ -48,8 +48,8 @@ class CreditScore {
               let producer = new Producer(amqp, amqpOptions);
               producer.startErrorHandler();
 
-              // let creditScore = parseInt(response.creditScoreResponse.return);
-              let creditScore = 730;
+              let creditScore = parseInt(response.creditScoreResponse.return);
+              // let creditScore = 730;
               let ssn = message.ssn.split('-').join('');
               let loanAmount = parseFloat(message.loanAmount.toFixed(2));
               let loanDuration = message.loanDuration;

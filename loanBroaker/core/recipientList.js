@@ -83,8 +83,6 @@ class RecipientList {
               headers[key] = value;
             });
 
-            console.log("Recipient: ", messageToSend, headers);
-
             producer.publish(recipient.translator, messageToSend, exchangeOptions, 'groupXexchange', {
               headers: headers
             });

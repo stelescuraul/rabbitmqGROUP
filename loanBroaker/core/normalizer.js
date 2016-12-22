@@ -39,7 +39,6 @@ let sendMessage = function (message, ssn, header) {
 };
 
 let checkMapper = function (message, header, mapper) {
-  console.log('Check my mapper', message, header);
   let mappedRequest = Mapper.getMappedObject(header.requestId);
   if (mappedRequest && mappedRequest.nrOfMessages) {
     let messagesInMapper = mappedRequest.messages;
