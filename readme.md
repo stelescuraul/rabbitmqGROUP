@@ -37,6 +37,8 @@ Now that your server is running, you should see in your console `Listening on po
 
 ### Diagrams
 
+![](https://github.com/stelescuraul/rabbitmqGROUP/blob/master/screen%20dumps/1.png)
+
 ### Potential bottlenecks
 
 Possible bottlenecks in our application might be because of the connectivity between our components and queue server / java servers if they will be deployed somewhere else than locally.
