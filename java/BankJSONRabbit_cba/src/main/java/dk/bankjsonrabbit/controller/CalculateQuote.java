@@ -44,7 +44,7 @@ public class CalculateQuote
           String message = new String(delivery.getBody());
           
           AMQP.BasicProperties props = delivery.getProperties();
-          AMQP.BasicProperties replyProps = new AMQP.BasicProperties.Builder().correlationId(props.getCorrelationId()).replyTo(props.getReplyTo()).build();
+          AMQP.BasicProperties replyProps = new AMQP.BasicProperties.Builder().correlationId(props.getCorrelationId()).replyTo(props.getReplyTo()).headers(props.getHeaders()).build();
           
           loanRequestDTO = gson.fromJson(message, LoanRequestDTO.class);
           

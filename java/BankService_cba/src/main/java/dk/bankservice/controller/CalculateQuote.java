@@ -39,7 +39,7 @@ public class CalculateQuote
         AMQP.BasicProperties props = gson.fromJson(properties, AMQP.BasicProperties.class);
         System.out.println("Props--->  " + props.toString());
         
-        AMQP.BasicProperties replyProps = new AMQP.BasicProperties.Builder().correlationId(props.getCorrelationId()).replyTo(props.getReplyTo()).build();
+        AMQP.BasicProperties replyProps = new AMQP.BasicProperties.Builder().correlationId(props.getCorrelationId()).replyTo(props.getReplyTo()).headers(props.getHeaders()).build();
 
 
      //   AMQP.BasicProperties replyProps1 = new AMQP.BasicProperties.Builder().correlationId(props1.getCorrelationId()).replyTo("queue_reply_loanRequest").build();

@@ -20,7 +20,7 @@ import java.util.concurrent.TimeoutException;
  */
 public class Receive 
 {
-    private static final String TASK_QUEUE_NAME = "queue_bankRabbit";
+    private static final String TASK_QUEUE_NAME = "groupXJSONBank";
     private static Connection connection;
     private static Channel channel;
     

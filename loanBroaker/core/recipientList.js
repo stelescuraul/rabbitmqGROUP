@@ -24,7 +24,7 @@ let listener = new Listener(amqp, amqpOptions);
 
 const bankslist = {
   'cphbusiness.bankService': {
-    host: 'http://localhost:7999/',
+    host: 'http://localhost:8080/',
     type: 'xmlJSONString',
     exchange: 'cphbusiness.bankService',
     translator: '.groupXServiceXML'

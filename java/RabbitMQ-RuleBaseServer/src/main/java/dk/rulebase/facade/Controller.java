@@ -42,7 +42,7 @@ public class Controller
         return generatingBankList;
     }
     
-    public List<String> selectSuitableBanks()
+    public List<String> selectSuitableBanks() 
     {
         List<String> selectedBanks = new ArrayList<String>();
         
@@ -50,7 +50,9 @@ public class Controller
         
         if (creditScore < 580)
         {
-            return null;
+            selectedBanks.add(bankList.get(2));
+            selectedBanks.add(bankList.get(3));
+//            return null;
         }
         
         if (creditScore >= 720)

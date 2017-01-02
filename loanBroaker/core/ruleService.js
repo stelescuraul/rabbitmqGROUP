@@ -8,7 +8,7 @@ const _ = require('lodash');
 const q = require('q');
 
 let clientOptionsRuleBased = {
-  host: 'http://localhost:7999/',
+  host: 'http://localhost:8080/',
   path: '/RuleBaseService/RuleBaseService',
   wsdl: '/RuleBaseService/RuleBaseService?WSDL',
 };

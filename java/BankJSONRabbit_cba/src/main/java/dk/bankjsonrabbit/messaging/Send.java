@@ -35,7 +35,7 @@ public class Send
         channel.queueDeclare(taskQueueName, true, false, false, null);
         
         channel.basicPublish( "", taskQueueName, 
-                MessageProperties.PERSISTENT_TEXT_PLAIN,
+                props,
                 message.getBytes());
         
         channel.close();
