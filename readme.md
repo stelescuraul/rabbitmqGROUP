@@ -19,17 +19,16 @@
 In order to run the whole suite you have to:
   1. Have nodejs and npm installed in your system and setup environment variables
   2. Run the java servers :
-    - BankService : folder name
-    - BankJSONRabbit : folder name
-    - RuleBaseServer : folder name
+    - BankService : java/BankService_cba
+    - BankJSONRabbit : java/BankJSONRabbit_cba
+    - RuleBaseServer : java/RabbitMQ-RuleBaseServer
   3. From loanBroaker folder do npm install
-  4. From loanBroaker folder do 'node setup.js' (optional)
+  4. From loanBroaker folder do 'node setup.js' (optional, it is already setup as before the handin)
   5. From loanBroaker folder do 'node server.js'
 
 OBS: If your glassfish server is running on a different port than 8080, then you have to go to the following files and change the port:
-  - loanBroaker/core/ruleService.js line 11 (host: 'http://localhost:7999/') change the 7999 to the port your glassfish server is running
-  - loanBroaker/core/ruleService.js line 11 (host: 'http://localhost:7999/') change the 7999 to the port your glassfish server is running
-  - loanBroaker/core/ruleService.js line 11 (host: 'http://localhost:7999/') change the 7999 to the port your glassfish server is running
+  - loanBroaker/core/recipientList.js line 11 (host: 'http://localhost:8080/') change the 8080 to the port your glassfish server is running
+  - loanBroaker/core/ruleService.js line 11 (host: 'http://localhost:8080/') change the 8080 to the port your glassfish server is running
 
 Now that your server is running, you should see in your console `Listening on port: 1337`. You can go to : localhost:1337 in your browser run the client
 
